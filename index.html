@@ -11,7 +11,7 @@
 
     <script> 
       $(document).ready(function() { 
-        $.getJSON('https://spreadsheets.google.com/feeds/list/16qvshfM6akxUyM-96zJIOmFmpzpy9-WrFtk8JWaU6IE/1/public/values?alt=json', function(data) { 
+        $.getJSON('https://docs.google.com/spreadsheets/d/16qvshfM6akxUyM-96zJIOmFmpzpy9-WrFtk8JWaU6IE/edit?usp=sharing', function(data) { 
           var sheetData = data.feed.entry; 
 
           var htmlString = "<table><tr><th>Name</th><th>Data</th></tr>"; 
