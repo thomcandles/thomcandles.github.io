@@ -1,96 +1,33 @@
-const Table = (props) => {
-  return (
-    <table className="table">
-      <thead> 
-        <TableHeader headers={props.headers} />
-      </thead>
-      <tbody>
-        <TableRows rows={props.data} values={props.values} />
-      </tbody>
-    </table>
-  )
-}
+//load in papaparse script
+var papaparse_script = document.createElement("script");
+papaparse_script.type = "text/javascript";
+papaparse_script.src = "https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js";
+document.body.appendChild(papaparse_script)
 
-const TableHeader = (props) => {
-  return props.headers.map((e, i) => {
-    return <th>{e}</th>
-  })
-}
+//fetch the data
+var sheet_csv = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQZBb0hdC5AnYmi445Ie0mDKuH6ipRjwmSZmEJppOLviHJnW1jLSow3jjwBO1QT-y_raxlEvzDC28b2/pub?gid=1752595225&single=true&output=csv';
 
-const TableRows = (props) => {
-  return props.rows.map((e, i) => { 
-    return (
-      <tr key={i}>  
-        <TableCells row={e} values={props.values} />
-      </tr>
-    )
-  })
-}
+fetch(sheet_csv)
+  .then(function(response){return response.text();})
+  .then(function(data){
+    parseData(data)
+  });
 
-const TableCells = (props) => {
-  return props.values.map((v, i) => {
-    return (
-      <td>
-        { i === 0 ? 
-          <a href={props.row['url']} target="_blank">{ props.row[v] }</a> 
-          : props.row[v] }
-      </td>
-    )
-  })
-}
+//parse the data
+var parseData = function(data){
+  var gson = Papa.parse(data, {header:true}).data;
+  renderData(gson);
+};
 
-class App extends React.Component {
-   constructor() {
-     super();
-     this.state = {
-      items: []
-     }
-   }
-  
-  componentDidMount() {
-    this.fetchGoogleSheet ();
-  }
-  
-  fetchGoogleSheet = () => {
-    // api key restricted to domain/directory
-    const apiKey = 'AIzaSyBFpZregfOoRFucibyPYyp-Vu9RkiR8NQc';
-    const cellRange = '!A2:Z3000'
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/1KxEK0jt7wcaIn4A22_zas5Za8I-l-429dKaZgtICeVk/values/data${cellRange}?key=${apiKey}`;
-    fetch(url)
-    .then(resp => resp.json())
-    .then((data) => {
-      const results = [];
-      data.values.map((val, i) => {
-        let obj = {
-           title: val[0],
-           issuingOffice: val[1],
-           category: val[2],
-           url: val[3]
-        }
-        results.push(obj);
-      });
-      this.setState({
-        items: [...this.state.items, ...results]
-      });
-    })
-    .catch(error => {
-      console.log('There was an error fetching your request.')
-    });
-  }
- 
-  render() {
-    return (
-      <div>
-        <a className="view-gs" href="https://docs.google.com/spreadsheets/d/1KxEK0jt7wcaIn4A22_zas5Za8I-l-429dKaZgtICeVk/edit?usp=sharing" target="_blank">View Google Sheet</a>
-        <Table 
-          headers={['Title', 'Issuing Office', 'Category']} 
-          data={this.state.items}
-          values={['title', 'issuingOffice', 'category']}
-         />
-      </div>
-    )
+var renderData = function(gson) {
+  //do something interesting!
+  var chart = document.querySelector('.chart');
+console.log(chart);
+  for(var i=0; i<gson.length; i++) {
+    var row_data = gson[i];
+    var row_html = `<div class="row"><div class="left"><div  style="width:${row_data["Percent of Mind Blown By This Technique"]}%"><span>${row_data["Percent of Mind Blown By This Technique"]}</span></div></div><div class="middle">${row_data["Timestamp"]}</div><div class="right"><div style="width:${row_data["Likelihood to Use This Technique "]}%"><span>${row_data["Likelihood to Use This Technique "]}</span></div></div></div>`;
+console.log(row_html);
+   chart.innerHTML += row_html;
+console.log(chart.innerHTML);
   }
 }
-      
-ReactDOM.render(<App/>, document.getElementById('root'));
-
