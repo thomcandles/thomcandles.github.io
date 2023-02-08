@@ -1,0 +1,46 @@
+body {
+  font-family: 'Open Sans', sans-serif; 
+}
+
+a {
+  &:link, &:visited {
+    color: #18453b;
+  }
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.view-gs {
+  display: inline-block;
+  padding: 8px 20px;
+  font-weight: 700;
+}
+
+.table {
+  font-size: 0.938rem;
+  border-collapse: collapse;
+  max-width: 1024px;
+  margin: 0 auto;
+  thead {
+    background: #265C50;
+    color: #fff;
+    th {
+      padding: 12px 18px;
+      text-align: left;
+      font-weight: 700;
+    }
+  }
+  tbody {
+    tr:nth-child(odd) {
+      background-color: #f5f5f5;
+    }
+    td {
+      padding: 12px 18px;
+      border-bottom: 1px solid #aeb7b2;
+      &:nth-child(3) {
+        width: 25%;
+      }
+    }
+  }
+}
