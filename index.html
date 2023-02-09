@@ -1,15 +1,20 @@
-<form
-  action="https://formspree.io/f/myyaekwj"
-  method="POST"
->
+<html>
+<body>
+<script>
+  var a = document.getElementById("email");
+  document.getElementById("emai").innerHTML = a;
+</script>
+  <p id="emai"></p>
+<form method="POST">
   <label>
     Your email:
-    <input type="email" name="email">
+    <input type="text" name="email" id="email"/>
   </label>
   <label>
     Your message:
-    <textarea name="message"></textarea>
+    <input type="text" name="mess" id="mess"/>
   </label>
-  <!-- your other form fields go here -->
-  <button type="submit">Send</button>
+  <input type="button" value="submit" onclick="changeQuiz()"/>
 </form>
+</body>
+</html>
